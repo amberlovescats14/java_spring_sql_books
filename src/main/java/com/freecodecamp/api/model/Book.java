@@ -1,10 +1,7 @@
 package com.freecodecamp.api.model;
 
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
 @Entity
@@ -20,6 +17,9 @@ public class Book {
     @NotBlank
     private String author_name;
 
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private Genre genre;
+
     public Book(){}
     public Book(
           Long id,
@@ -29,6 +29,14 @@ public class Book {
         this.id = id;
         this.book_name = book_name;
         this.author_name = author_name;
+    }
+
+    public Genre getGenre() {
+        return genre;
+    }
+
+    public void setGenre(Genre genre) {
+        this.genre = genre;
     }
 
     public Long getId() {

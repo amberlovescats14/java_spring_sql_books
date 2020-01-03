@@ -3,7 +3,9 @@ package com.freecodecamp.api.controller;
 
 import com.freecodecamp.api.exceptioins.BookNotFoundException;
 import com.freecodecamp.api.model.Book;
+import com.freecodecamp.api.model.Genre;
 import com.freecodecamp.api.repos.BookRepository;
+import com.freecodecamp.api.repos.GenreRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +17,9 @@ import java.util.List;
 public class BookController {
     @Autowired
     BookRepository bookRepository;
+
+    @Autowired
+    GenreRepo genreRepo;
 
     //GET ALL
     @GetMapping("/books")
@@ -33,6 +38,10 @@ public class BookController {
     //CREATE
     @PostMapping("/books")
     public Book createBook(@Valid @RequestBody Book book){
+        Genre genre = new Genre();
+        genre.setBook(book);
+        book.setGenre(genre);
+
         return bookRepository.save(book);
     }
 
